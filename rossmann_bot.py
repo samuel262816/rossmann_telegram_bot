@@ -66,8 +66,8 @@ def predict( data ):
     print( 'Status Code {}'.format( r.status_code ) )
 
     # convert into dataframe
-    d1 = pd.DataFrame( r.json(), columns= r.json()[0].keys() )
-    return d1
+    df = pd.DataFrame( r.json(), columns= r.json()[0].keys() )
+    return df
 
 
 
