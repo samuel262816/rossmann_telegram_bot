@@ -16,6 +16,9 @@ token = '5800603609:AAGuchfYsRi1urWgomSgGGb5s1hO2XPcjfU'
 # # send Message
 # https://api.telegram.org/bot5800603609:AAGuchfYsRi1urWgomSgGGb5s1hO2XPcjfU/sendMessage?chat_id=884913866&text=Ola Samuel, belezinha!
 
+# # webhook render
+# https://api.telegram.org/bot5800603609:AAGuchfYsRi1urWgomSgGGb5s1hO2XPcjfU/setWebhook?url=https://rossmann-telegram-bot-0zts.onrender.com
+
 
 def send_message( chat_id, text ):
     url = f'https://api.telegram.org/bot{token}/'
@@ -63,7 +66,7 @@ def predict( data ):
     print( 'Status Code {}'.format( r.status_code ) )
 
     # convert into dataframe
-    df = pd.DataFrame( r.json(), columns= r.json()[0].keys() )
+    d1 = pd.DataFrame( r.json(), columns= r.json()[0].keys() )
     return d1
 
 
