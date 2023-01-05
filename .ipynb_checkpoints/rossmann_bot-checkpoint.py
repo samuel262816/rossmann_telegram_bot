@@ -2,7 +2,7 @@ import pandas as pd
 import json
 import requests
 import os
-from flask import Flask, requests, Response
+from flask import Flask, request, Response
 
 # constants
 token = '5800603609:AAGuchfYsRi1urWgomSgGGb5s1hO2XPcjfU'
@@ -88,8 +88,8 @@ app = Flask( __name__ )
 
 @app.route('/', methods= ['GET', 'POST'] )
 def index():
-    if requests.method == 'POST':
-        message = requests.get_json()
+    if request.method == 'POST':
+        message = request.get_json()
         
         chat_id, store_id = parse_message( message )
         
