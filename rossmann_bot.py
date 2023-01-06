@@ -21,8 +21,8 @@ token = '5800603609:AAGuchfYsRi1urWgomSgGGb5s1hO2XPcjfU'
 
 
 def send_message( chat_id, text ):
-    url = f'https://api.telegram.org/bot{token}/'
-    url = url + 'sendMessage?chat_id={chat_id}'
+    url = 'https://api.telegram.org/bot{}/'.format( token )
+    url = url + 'sendMessage?chat_id={}'.format( chat_id )
     
     r = requests.post( url, json={'text': text} )
     print( f'Status Code {r.status_code}' )
@@ -66,9 +66,8 @@ def predict( data ):
     print( 'Status Code {}'.format( r.status_code ) )
 
     # convert into dataframe
-    df = pd.DataFrame( r.json(), columns= r.json()[0].keys() )
-    return df
-
+    d1 = pd.DataFrame( r.json(), columns= r.json()[0].keys() )
+    return d1
 
 
 def parse_message( message ):
@@ -84,6 +83,7 @@ def parse_message( message ):
         store_id = 'error'
         
     return chat_id, store_id
+
 
 
 # API Initialize
@@ -102,13 +102,13 @@ def index():
             
             if data != 'error':
                 # prediction
-                df = predict( data )
+                d1 = predict( data )
 
                 # calculation
-                df2 = df[['store', 'prediction']].groupby('store').sum().reset_index()
+                d2 = d1[['store', 'prediction']].groupby('store').sum().reset_index()
                 
                 # send message
-                msg =  ( f'Store number { df2["store"].values[0] } will sell R${ df2["prediction"].values[0] :,.2f} in the next 6 weeks') 
+                msg = 'Store number {} will sell R${:,.2f} in the next 6 weeks'.format( d2["store"].values[0], d2["prediction"].values[0] )
                 
                 send_message( chat_id, msg )
                 return Response( 'Ok', status = 200 )
@@ -127,4 +127,4 @@ def index():
 
 if __name__ == '__main__':
     port = os.environ.get( 'PORT', 5000)
-    app.run( host= '0.0.0.0', port= port, debug= True )
+    app.run( host= '0.0.0.0', port= port )
